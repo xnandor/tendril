@@ -1,0 +1,34 @@
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//  PROGRAM BLOCK
+// This is a named block. All code in tendril is executed in named reusable blocks.
+// A block is similar to a function, the only difference being that a block is reflective, being considered both data and code.
+// Think of a block as a closed box with inputs on the left and outputs on the right.
+// The block named "program" is the main hook into a tendril program.
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+()[program]() {
+
+  // The guiding philosophy of tendrils is that resources are readily available.
+  // In most languages accessing the sytem's network, screens, devices, stdio, files and similar resources are difficult
+  //   and often require all sorts of error and exception handling. Tendril assumes they are available provides easy access to them.
+  // An example is that any pixel in the programs' context's screen can be accessed with uppercase "X" and "Y".
+  for (x, y in X, Y) {
+  
+      // Get a pixel variable "p".
+      // Typical execution of a block is denoted by a "~".
+      p = (x, y)[PIXEL];
+      
+      p.lum = x*y;
+  }
+
+  while (true) {
+    (80)[PORT.listen] | (connection)[] {
+      buffer = ("\n")[BUFFER];
+      connection | (byte)[buffer.chunk] | (bytes)[] {
+        string = (bytes)[string.fromBytes];
+        (string)[STDOUT.write];
+      }
+    }
+  }
+}
